@@ -56,9 +56,9 @@ I'm Philipp, PhD Candidate at TU Dortmund University.
 
 ## My Stats
 
-<a>
+<div align="center">
     <img align="center" src="https://github-readme-stats.vercel.app/api?username=ronmckay&show_icons=true&theme=gruvbox" />
-</a>
-<a>
+</div>
+<div align="center">
     <img align="center" src="https://github-readme-stats.vercel.app/api/top-langs/?username=ronmckay&layout=compact&theme=gruvbox&hide=jinja" />
-</a>
+</div>

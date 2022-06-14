@@ -43,7 +43,7 @@ I'm Philipp, PhD Candidate at TU Dortmund University.
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/pytorch/pytorch-original.svg" title="PyTorch" alt="PyTorch" width="40" height="40">
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/git/git-original.svg" title="Git" alt="Git" width="40" height="40">
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original.svg#gh-light-mode-only" title="GitHub" alt="GitHub" width="40" height="40">
-<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original.svg#gh-dark-mode-only" style="fill: #FFFFFF" title="GitHub" alt="GitHub" width="40" height="40">
+<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original.svg#gh-dark-mode-only" style="fill: #FFFFFF; path: #FFFFFF" title="GitHub" alt="GitHub" width="40" height="40">
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/ansible/ansible-original.svg" title="Ansible" alt="Ansible" width="40" height="40">
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original.svg" title="Docker" alt="Docker" width="40" height="40">
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/grafana/grafana-original.svg" title="Grafana" alt="Grafana" width="40" height="40">

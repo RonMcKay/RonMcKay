@@ -40,9 +40,9 @@ I'm Philipp, PhD Candidate at TU Dortmund University.
 ## Tools I use
 
 <div>
-<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/pytorch/pytorch-original-wordmark.svg" title="PyTorch" alt="PyTorch" width="40" height="40">
-<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/git/git-original-wordmark.svg" title="Git" alt="Git" width="40" height="40">
-<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original-wordmark.svg" title="GitHub" alt="GitHub" width="40" height="40">
+<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/pytorch/pytorch-original.svg" title="PyTorch" alt="PyTorch" width="40" height="40">
+<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/git/git-original.svg" title="Git" alt="Git" width="40" height="40">
+<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original-wordmark.svg#gh-light-mode-only" title="GitHub" alt="GitHub" width="40" height="40">
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/ansible/ansible-original-wordmark.svg" title="Ansible" alt="Ansible" width="40" height="40">
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original-wordmark.svg" title="Docker" alt="Docker" width="40" height="40">
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/grafana/grafana-original-wordmark.svg" title="Grafana" alt="Grafana" width="40" height="40">
@@ -56,9 +56,9 @@ I'm Philipp, PhD Candidate at TU Dortmund University.
 
 ## My Stats
 
-<div align="center">
+<div>
     <img align="center" src="https://github-readme-stats.vercel.app/api?username=ronmckay&show_icons=true&theme=gruvbox" />
 </div>
-<div align="center">
+<div>
     <img align="center" src="https://github-readme-stats.vercel.app/api/top-langs/?username=ronmckay&layout=compact&theme=gruvbox&hide=jinja" />
 </div>

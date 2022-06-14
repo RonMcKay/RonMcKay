@@ -51,5 +51,11 @@ I'm Philipp, PhD Candidate at TU Dortmund University.
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/vscode/vscode-original-wordmark.svg" title="Visual Studio Code" alt="Visual Studio Code" width="40" height="40">
 </div>
 
-[![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=ronmckay&show_icons=true&theme=gruvbox)](https://github.com/anuraghazra/github-readme-stats)
-![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=ronmckay&layout=compact)
+## My Stats
+
+<div>
+    <img align="center" src="https://github-readme-stats.vercel.app/api?username=ronmckay&show_icons=true&theme=gruvbox" />
+</div>
+<div>
+    <img align="center" src="https://github-readme-stats.vercel.app/api/top-langs/?username=ronmckay&layout=compact&theme=gruvbox&hide=jinja" />
+</div>

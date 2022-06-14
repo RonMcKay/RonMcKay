@@ -21,11 +21,14 @@ I'm Philipp, PhD Candidate at TU Dortmund University.
 
 ## My Projects
 
+<a href="https://github.com/ronmckay/capacitive-soil-moisture-sensor">
+    <img align="center" src="https://github-readme-stats.vercel.app/api/pin/?username=ronmckay&repo=capacitive-soil-moisture-sensor&theme=gruvbox" />
+</a>
 <a href="https://github.com/ronmckay/oodretrieval">
     <img align="center" src="https://github-readme-stats.vercel.app/api/pin/?username=ronmckay&repo=oodretrieval&theme=gruvbox" />
 </a>
-<a href="https://github.com/ronmckay/capacitive-soil-moisture-sensor">
-    <img align="center" src="https://github-readme-stats.vercel.app/api/pin/?username=ronmckay&repo=capacitive-soil-moisture-sensor&theme=gruvbox" />
+<a href="https://github.com/RonMcKay/gradient_metrics">
+    <img align="center" src="https://github-readme-stats.vercel.app/api/pin/?username=ronmckay&repo=gradient_metrics&theme=gruvbox" />
 </a>
 
 ## About Me
@@ -53,9 +56,9 @@ I'm Philipp, PhD Candidate at TU Dortmund University.
 
 ## My Stats
 
-<div>
+<div align="center">
     <img align="center" src="https://github-readme-stats.vercel.app/api?username=ronmckay&show_icons=true&theme=gruvbox" />
 </div>
-<div>
+<div align="center">
     <img align="center" src="https://github-readme-stats.vercel.app/api/top-langs/?username=ronmckay&layout=compact&theme=gruvbox&hide=jinja" />
 </div>

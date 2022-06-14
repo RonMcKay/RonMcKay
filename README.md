@@ -37,7 +37,7 @@ I'm Philipp, PhD Candidate at TU Dortmund University.
 - Research area focused on Uncertainty Quantification of (Deep) Neural Networks
 - Interested in microelectronics for IoT applications
 
-## Tools I use
+## Tools I Use
 
 <div>
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/pytorch/pytorch-original.svg" title="PyTorch" alt="PyTorch" width="40" height="40">
@@ -56,9 +56,9 @@ I'm Philipp, PhD Candidate at TU Dortmund University.
 
 ## My Stats
 
-<div>
+<a>
     <img align="center" src="https://github-readme-stats.vercel.app/api?username=ronmckay&show_icons=true&theme=gruvbox" />
-</div>
-<div>
+</a>
+<a>
     <img align="center" src="https://github-readme-stats.vercel.app/api/top-langs/?username=ronmckay&layout=compact&theme=gruvbox&hide=jinja" />
-</div>
+</a>

@@ -40,19 +40,41 @@ I'm Philipp, PhD Candidate at TU Dortmund University.
 ## Tools I Use
 
 <div>
-<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/pytorch/pytorch-original.svg" title="PyTorch" alt="PyTorch" width="40" height="40">
+<a href="https://pytorch.org/">
+    <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/pytorch/pytorch-original.svg" title="PyTorch" alt="PyTorch" width="40" height="40">
+</a>
+<a href="https://git-scm.com/">
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/git/git-original.svg" title="Git" alt="Git" width="40" height="40">
+</a>
+<a href="https://github.com/">
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original.svg#gh-light-mode-only" title="GitHub" alt="GitHub" width="40" height="40">
+</a>
+<a href="https://github.com/">
 <img src="GitHub-Mark-Light-64px.png#gh-dark-mode-only" title="GitHub" alt="GitHub" width="40" height="40">
+</a>
+<a href="https://www.ansible.com/">
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/ansible/ansible-original.svg" title="Ansible" alt="Ansible" width="40" height="40">
+</a>
+<a href="https://www.docker.com/">
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original.svg" title="Docker" alt="Docker" width="40" height="40">
+</a>
+<a href="https://grafana.com/">
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/grafana/grafana-original.svg" title="Grafana" alt="Grafana" width="40" height="40">
+</a>
+<a href="https://prometheus.io/">
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/prometheus/prometheus-original.svg" title="Prometheus" alt="Prometheus" width="40" height="40">
+</a>
+<a href="https://jupyter.org/">
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/jupyter/jupyter-original.svg" title="Jupyter" alt="Jupyter" width="40" height="40">
+</a>
+<a href="https://www.latex-project.org/">
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/latex/latex-original.svg#gh-light-mode-only" title="LaTeX" alt="LaTeX" width="40" height="40">
+</a>
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linux/linux-original.svg" title="Linux" alt="Linux" width="40" height="40">
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/vim/vim-original.svg" title="Vim" alt="Vim" width="40" height="40">
+<a href="https://code.visualstudio.com/">
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/vscode/vscode-original.svg" title="Visual Studio Code" alt="Visual Studio Code" width="40" height="40">
+</a>
 </div>
 
 ## My Stats

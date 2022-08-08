@@ -48,7 +48,7 @@ I'm Philipp, PhD Candidate at TU Dortmund University. <br><br>
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/git/git-original.svg" title="Git" alt="Git" width="40" height="40">
 </a>
 <a href="https://github.com/">
-<img src="GitHub-Mark-Light-64px.png#gh-dark-mode-only" title="GitHub" alt="GitHub" width="40" height="40">
+<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original.svg" title="GitHub" alt="GitHub Logo" width="40" height="40">
 </a>
 <a href="https://www.ansible.com/">
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/ansible/ansible-original.svg" title="Ansible" alt="Ansible" width="40" height="40">

@@ -22,6 +22,11 @@ I'm Philipp, PhD Candidate at TU Dortmund University. <br><br>
 
 ## My Projects
 
+<div align="center">
+
+<a href="https://github.com/ronmckay/uqgan">
+    <img align="center" src="https://github-readme-stats.vercel.app/api/pin/?username=ronmckay&repo=uqgan&hide_border=true&theme=gruvbox" />
+</a>
 <a href="https://github.com/ronmckay/capacitive-soil-moisture-sensor">
     <img align="center" src="https://github-readme-stats.vercel.app/api/pin/?username=ronmckay&repo=capacitive-soil-moisture-sensor&hide_border=true&theme=gruvbox" />
 </a>
@@ -31,6 +36,8 @@ I'm Philipp, PhD Candidate at TU Dortmund University. <br><br>
 <a href="https://github.com/RonMcKay/gradient_metrics">
     <img align="center" src="https://github-readme-stats.vercel.app/api/pin/?username=ronmckay&repo=gradient_metrics&hide_border=true&theme=gruvbox" />
 </a>
+
+</div>
 
 ## About Me
 

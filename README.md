@@ -47,7 +47,8 @@ I'm Philipp, PhD Candidate at TU Dortmund University. <br><br>
 
 ## Tools I Use
 
-<div>
+<div align="center">
+
 <a href="https://pytorch.org/">
     <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/pytorch/pytorch-original.svg" title="PyTorch" alt="PyTorch" width="40" height="40">
 </a>
@@ -80,6 +81,7 @@ I'm Philipp, PhD Candidate at TU Dortmund University. <br><br>
 <a href="https://code.visualstudio.com/">
 <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/vscode/vscode-original.svg" title="Visual Studio Code" alt="Visual Studio Code" width="40" height="40">
 </a>
+
 </div>
 
 ## My Stats

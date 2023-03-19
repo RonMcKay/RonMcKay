@@ -37,7 +37,7 @@ I'm Philipp, PhD Candidate at TU Dortmund University. <br><br>
     <img align="center" src="https://github-readme-stats-rs2q.vercel.app/api/pin/?username=ronmckay&repo=gradient_metrics&hide_border=true&theme=gruvbox" />
 </a>
 <a href="https://github.com/TUD-Patrec/annotation-tool">
-    <img align="center" src="https://github-readme-stats-rs2q.vercel.app/api/pin/?username=tud-patrec&repo=annotation-tool&hide_border=true&theme=gruvbox" />
+    <img align="center" src="https://github-readme-stats.vercel.app/api/pin/?username=tud-patrec&repo=annotation-tool&hide_border=true&theme=gruvbox" />
 </a>
 
 </div>

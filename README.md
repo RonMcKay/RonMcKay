@@ -2,7 +2,7 @@
 <div id="header" align="center">
 <img align="center" src="LeonardoAI_profile_picture.jpg" width=300> <br><br>
 Hi, there! :wave: <br>
-I'm Philipp, Data Scientist, . <br><br>
+I'm Philipp, Data Scientist, Coffee Enthusiast. <br><br>
 
 <div id="badges">
     <a href="https://www.linkedin.com/in/philipp-oberdiek/">

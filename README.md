@@ -2,7 +2,7 @@
 <div id="header" align="center">
 <img align="center" src="LeonardoAI_profile_picture.jpg" width=300> <br><br>
 Hi, there! :wave: <br>
-I'm Philipp, PhD Candidate at TU Dortmund University. <br><br>
+I'm Philipp, Data Scientist, . <br><br>
 
 <div id="badges">
     <a href="https://www.linkedin.com/in/philipp-oberdiek/">
@@ -44,8 +44,8 @@ I'm Philipp, PhD Candidate at TU Dortmund University. <br><br>
 
 ## About Me
 
-- PhD Candidate at TU Dortmund University
-- Research area focused on Uncertainty Quantification of (Deep) Neural Networks
+- PhD (Dr.-Ing.) in computer science
+- Research area focused on uncertainty quantification of (deep) neural networks
 - Interested in microelectronics for IoT applications
 
 ## Tools I Use

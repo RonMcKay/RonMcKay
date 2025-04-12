@@ -2,7 +2,7 @@
 <div id="header" align="center">
 <img align="center" src="LeonardoAI_profile_picture.jpg" width=300> <br><br>
 Hi, there! :wave: <br>
-I'm Philipp, Data Scientist, Tech Explorer, Tennis Advocate, Coffee Enthusiast. <br><br>
+I'm Philipp, Data Scientist, Tech Explorer, Tennis Fan, Coffee Enthusiast. <br><br>
 
 <div id="badges">
     <a href="https://www.linkedin.com/in/philipp-oberdiek/">
@@ -73,6 +73,7 @@ I'm Philipp, Data Scientist, Tech Explorer, Tennis Advocate, Coffee Enthusiast. 
 
 - PhD (Dr.-Ing.) in computer science
 - Research area focused on uncertainty quantification of (deep) neural networks
+- Homelabbing / Self-Hosting Fanatic
 - Interested in microelectronics for IoT applications
 
 ## Tools I Use

@@ -1,55 +1,96 @@
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/svg/header-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="assets/svg/header-light.svg">
-  <img width="100%" alt="Philipp Oberdiek. Dr.-Ing. in computer science, uncertainty quantification. Homelab, self-hosting, IoT, tennis, coffee." src="assets/svg/header-light.svg">
-</picture>
+<img src="assets/svg/header.svg" width="100%" alt="Hi, I’m Philipp Oberdiek. A Gaussian-process posterior: the uncertainty band is narrow around observed data points and widens where there is none. My portrait is the last data point.">
 
-<p>
-  <a href="https://www.linkedin.com/in/philipp-oberdiek/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/svg/link-linkedin-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/svg/link-linkedin-light.svg"><img height="40" alt="LinkedIn" src="assets/svg/link-linkedin-light.svg"></picture></a>
-  <a href="https://oberdiek.net"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/svg/link-homepage-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/svg/link-homepage-light.svg"><img height="40" alt="oberdiek.net" src="assets/svg/link-homepage-light.svg"></picture></a>
-  <a href="https://scholar.google.com/citations?user=csh8_YkAAAAJ"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/svg/link-scholar-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/svg/link-scholar-light.svg"><img height="40" alt="Google Scholar" src="assets/svg/link-scholar-light.svg"></picture></a>
-  <a href="mailto:git@oberdiek.net"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/svg/link-email-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/svg/link-email-light.svg"><img height="40" alt="Email" src="assets/svg/link-email-light.svg"></picture></a>
-</p>
+<sub><b>Fig. 1</b>&ensp;Gaussian-process posterior, mean ± 1σ / 2σ. Confidence is highest near observed data, and shortly after coffee.</sub>
 
-<br>
+**Dr.-Ing. in computer science**, working on uncertainty quantification. Homelab, IoT, tennis and coffee on the side.
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/svg/section-about-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="assets/svg/section-about-light.svg">
-  <img width="100%" alt="01 About" src="assets/svg/section-about-light.svg">
-</picture>
+[LinkedIn](https://www.linkedin.com/in/philipp-oberdiek/) &ensp;·&ensp; [oberdiek.net](https://oberdiek.net) &ensp;·&ensp; [Google Scholar](https://scholar.google.com/citations?user=csh8_YkAAAAJ) &ensp;·&ensp; [Email](mailto:git@oberdiek.net)
+
+## About
 
 My PhD at TU Dortmund, *Assessing the Reliability of Deep Neural Networks* (2023), was about **uncertainty quantification**: teaching models to know when they don't know. That question still drives most of what I build.
 
 Away from research, I run a homelab where I self-host just about everything (Proxmox, Docker, Ansible, with Grafana and Prometheus watching all of it) and design small battery-powered IoT devices. Off-screen, you'll find me on a tennis court or next to an espresso machine.
 
-<br>
+## Selected work
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/svg/section-work-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="assets/svg/section-work-light.svg">
-  <img width="100%" alt="02 Selected work" src="assets/svg/section-work-light.svg">
-</picture>
+<table>
+<tr>
+<td width="50%" valign="top">
 
-<p>
-  <a href="https://github.com/RonMcKay/UQGAN"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/svg/card-uqgan-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/svg/card-uqgan-light.svg"><img width="49%" alt="UQGAN: Unified uncertainty quantification for deep classifiers, trained via conditional GANs. Paper at NeurIPS 2022." src="assets/svg/card-uqgan-light.svg"></picture></a>
-  <a href="https://github.com/RonMcKay/OODRetrieval"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/svg/card-oodretrieval-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/svg/card-oodretrieval-light.svg"><img width="49%" alt="OODRetrieval: Detection and retrieval of out-of-distribution objects in semantic segmentation. Paper at CVPR Workshops 2020." src="assets/svg/card-oodretrieval-light.svg"></picture></a>
-  <a href="https://github.com/RonMcKay/gradient_metrics"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/svg/card-gradient-metrics-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/svg/card-gradient-metrics-light.svg"><img width="49%" alt="gradient_metrics: Gradient-based uncertainty metrics for neural networks, built on PyTorch. Paper at ANNPR 2018." src="assets/svg/card-gradient-metrics-light.svg"></picture></a>
-  <a href="https://github.com/TUD-Patrec/annotation-tool"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/svg/card-annotation-tool-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/svg/card-annotation-tool-light.svg"><img width="49%" alt="annotation-tool: Annotate time-series data from sources such as motion capture and video." src="assets/svg/card-annotation-tool-light.svg"></picture></a>
-  <a href="https://github.com/RonMcKay/capacitive-soil-moisture-sensor"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/svg/card-soil-sensor-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/svg/card-soil-sensor-light.svg"><img width="49%" alt="Soil moisture sensor: A compact, battery-powered capacitive soil moisture sensor." src="assets/svg/card-soil-sensor-light.svg"></picture></a>
-  <a href="https://github.com/RonMcKay/zotero-annotation-cross-hair"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/svg/card-zotero-crosshair-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/svg/card-zotero-crosshair-light.svg"><img width="49%" alt="Zotero crosshair: Page-wide crosshair guides for area annotations in Zotero's PDF reader." src="assets/svg/card-zotero-crosshair-light.svg"></picture></a>
-</p>
+<img src="assets/svg/uqgan.svg" width="88" align="right" alt="">
 
-<br>
+### [UQGAN](https://github.com/RonMcKay/UQGAN)
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/svg/section-toolbox-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="assets/svg/section-toolbox-light.svg">
-  <img width="100%" alt="03 Toolbox" src="assets/svg/section-toolbox-light.svg">
-</picture>
+<sub>RESEARCH · PYTHON · <b>NEURIPS 2022</b></sub>
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/svg/toolbox-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="assets/svg/toolbox-light.svg">
-  <img width="100%" alt="Toolbox. Model: PyTorch, Jupyter, NumPy. Run: Proxmox, Docker, Ansible. Observe: Grafana, Prometheus. Write: LaTeX, Vim, VS Code. Always: Linux, Git, GitHub." src="assets/svg/toolbox-light.svg">
-</picture>
+Unified uncertainty quantification for deep classifiers, trained via conditional GANs.
+
+</td>
+<td width="50%" valign="top">
+
+<img src="assets/svg/oodretrieval.svg" width="88" align="right" alt="">
+
+### [OODRetrieval](https://github.com/RonMcKay/OODRetrieval)
+
+<sub>RESEARCH · PYTHON · <b>CVPR WORKSHOPS 2020</b></sub>
+
+Detection and retrieval of out-of-distribution objects in semantic segmentation.
+
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+
+<img src="assets/svg/gradient-metrics.svg" width="88" align="right" alt="">
+
+### [gradient_metrics](https://github.com/RonMcKay/gradient_metrics)
+
+<sub>LIBRARY · PYTHON · <b>ANNPR 2018</b></sub>
+
+Gradient-based uncertainty metrics for neural networks, built on PyTorch.
+
+</td>
+<td width="50%" valign="top">
+
+<img src="assets/svg/annotation-tool.svg" width="88" align="right" alt="">
+
+### [annotation-tool](https://github.com/TUD-Patrec/annotation-tool)
+
+<sub>TOOL · PYTHON</sub>
+
+Annotate time-series data from sources such as motion capture and video.
+
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+
+<img src="assets/svg/soil-sensor.svg" width="88" align="right" alt="">
+
+### [Soil moisture sensor](https://github.com/RonMcKay/capacitive-soil-moisture-sensor)
+
+<sub>HARDWARE · IOT</sub>
+
+A compact, battery-powered capacitive soil moisture sensor.
+
+</td>
+<td width="50%" valign="top">
+
+<img src="assets/svg/zotero-crosshair.svg" width="88" align="right" alt="">
+
+### [Zotero crosshair](https://github.com/RonMcKay/zotero-annotation-cross-hair)
+
+<sub>PLUGIN · TYPESCRIPT</sub>
+
+Page-wide crosshair guides for area annotations in Zotero's PDF reader.
+
+</td>
+</tr>
+</table>
+
+## Toolbox
+
+| Model | Run | Observe | Write | Always |
+| :-- | :-- | :-- | :-- | :-- |
+| PyTorch<br>Jupyter<br>NumPy | Proxmox<br>Docker<br>Ansible | Grafana<br>Prometheus<br>&nbsp; | LaTeX<br>Vim<br>VS Code | Linux<br>Git<br>GitHub |

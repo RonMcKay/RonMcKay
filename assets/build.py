@@ -534,26 +534,26 @@ def ill_crosshair(t):
 PROJECTS = [
     ("uqgan", "a", "Research · Python", "UQGAN",
      "Unified uncertainty quantification for deep classifiers, trained via conditional GANs.",
-     "RonMcKay/UQGAN", ill_uqgan),
+     "RonMcKay/UQGAN", ill_uqgan, "NeurIPS 2022"),
     ("oodretrieval", "b", "Research · Python", "OODRetrieval",
      "Detection and retrieval of out-of-distribution objects in semantic segmentation.",
-     "RonMcKay/OODRetrieval", ill_ood),
+     "RonMcKay/OODRetrieval", ill_ood, "CVPR Workshops 2020"),
     ("gradient-metrics", "c", "Library · Python", "gradient_metrics",
-     "Gradient-based metrics for neural networks, built on PyTorch.",
-     "RonMcKay/gradient_metrics", ill_gradients),
+     "Gradient-based uncertainty metrics for neural networks, built on PyTorch.",
+     "RonMcKay/gradient_metrics", ill_gradients, "ANNPR 2018"),
     ("annotation-tool", "d", "Tool · Python", "annotation-tool",
      "Annotate time-series data from sources such as motion capture and video.",
-     "TUD-Patrec/annotation-tool", ill_annotation),
+     "TUD-Patrec/annotation-tool", ill_annotation, None),
     ("soil-sensor", "e", "Hardware · IoT", "Soil moisture sensor",
      "A compact, battery-powered capacitive soil moisture sensor.",
-     "RonMcKay/capacitive-soil-moisture-sensor", ill_sensor),
+     "RonMcKay/capacitive-soil-moisture-sensor", ill_sensor, None),
     ("zotero-crosshair", "f", "Plugin · TypeScript", "Zotero crosshair",
      "Page-wide crosshair guides for area annotations in Zotero’s PDF reader.",
-     "RonMcKay/zotero-annotation-cross-hair", ill_crosshair),
+     "RonMcKay/zotero-annotation-cross-hair", ill_crosshair, None),
 ]
 
 
-def card(t, letter, tag, title, desc, repo, illustration):
+def card(t, letter, tag, title, desc, repo, illustration, venue=None):
     W, H = 480, 272
     doc = Doc(W, H, f"{title}: {desc}")
     doc.add(
@@ -571,6 +571,16 @@ def card(t, letter, tag, title, desc, repo, illustration):
     doc.add(doc.text(MONO_M, repo, 28, 244, 13.5, t["ink"]))
     doc.add(arrow_ne(28 + MONO_M.width(repo, 13.5) + 9, 244, 8, t["accent"], 1.5))
     doc.add(f'<g transform="translate(350 26) scale(.74)">{illustration(t)}</g>')
+    if venue:
+        # Where the paper behind the project was published, as a tag in the bottom-right corner.
+        size, track, pad, h = 12, 12 * 0.14, 12, 26
+        w = MONO_M.width(venue.upper(), size, track) + 2 * pad
+        x = W - 28 - w
+        doc.add(
+            f'<rect x="{num(x)}" y="226" width="{num(w)}" height="{h}" rx="{h / 2}" fill="none" '
+            f'stroke="{t["accent"]}" stroke-opacity=".7" stroke-width="1.2"/>'
+        )
+        doc.add(doc.caps(venue, x + pad, 243.5, t["accent"], size))
     return doc
 
 
@@ -609,8 +619,8 @@ def main():
             write(f"link-{slug}-{name}.svg", link_button(t, label))
         for slug, number, title in SECTIONS:
             write(f"section-{slug}-{name}.svg", section(t, number, title))
-        for slug, letter, tag, title, desc, repo, ill in PROJECTS:
-            write(f"card-{slug}-{name}.svg", card(t, letter, tag, title, desc, repo, ill))
+        for slug, letter, tag, title, desc, repo, ill, venue in PROJECTS:
+            write(f"card-{slug}-{name}.svg", card(t, letter, tag, title, desc, repo, ill, venue))
     print(f"wrote {len(list(OUT.glob('*.svg')))} files to {OUT}")
 
 

@@ -260,10 +260,21 @@ def gp_posterior():
     std = np.sqrt(np.clip(np.diag(cov), 0, None))
 
     w, v = np.linalg.eigh((cov + cov.T) / 2)
-    root = v * np.sqrt(np.clip(w, 0, None))
-    rng = np.random.default_rng(7)
-    samples = mu + (root @ rng.standard_normal((len(xs), 4))).T
-    return xs, mu, std, samples, obs_x, obs_y
+    root = v * np.sqrt(np.clip(w, 0, None))  # root @ root.T == cov
+    return xs, mu, std, root, obs_x, obs_y
+
+
+def sample_loop(mu, root, seed: int, frames: int = 16):
+    """Keyframes of a posterior sample that drifts and loops back to its start.
+
+    f(θ) = mu + root (z1 cos θ + z2 sin θ) is an exact posterior sample for every θ,
+    unlike a straight blend between two samples, whose variance sags in the middle.
+    With 16 frames, the linear interpolation between neighbours keeps at least 98 %
+    of the posterior variance.
+    """
+    z1, z2 = np.random.default_rng(seed).standard_normal((2, len(mu)))
+    angles = np.linspace(0, 2 * np.pi, frames + 1)
+    return [mu + root @ (z1 * np.cos(a) + z2 * np.sin(a)) for a in angles]
 
 
 def portrait_data_uri(size: int) -> str | None:
@@ -288,7 +299,7 @@ def header(t, portrait):
     W, H = 1280, 520
     X0, X1 = 40, 1240
     doc = Doc(W, H, HEADER_LABEL)
-    xs, mu, std, samples, obs_x, obs_y = gp_posterior()
+    xs, mu, std, root, obs_x, obs_y = gp_posterior()
     a, ink = t["accent"], t["ink"]
 
     def px(x):
@@ -297,8 +308,8 @@ def header(t, portrait):
     def py(f):
         return 450 - f * 250
 
-    def line(ys):
-        return "M" + "L".join(f"{num(px(x))} {num(py(y))}" for x, y in zip(xs, ys))
+    def line(ys, step=1):
+        return "M" + "L".join(f"{num(px(x))} {num(py(y))}" for x, y in zip(xs[::step], ys[::step]))
 
     def band(k):
         up = [f"{num(px(x))} {num(py(y))}" for x, y in zip(xs, mu + k * std)]
@@ -314,15 +325,14 @@ def header(t, portrait):
     doc.add('<g clip-path="url(#plot)">')
     doc.add(f'<path class="band" d="{band(2)}" fill="{a}" fill-opacity=".12"/>')
     doc.add(f'<path class="band" d="{band(1)}" fill="{a}" fill-opacity=".2"/>')
-    for i, phase in enumerate((0, 2)):
-        order = [samples[(phase + j) % 4] for j in range(5)]
-        values = ";".join(line(s) for s in order)
+    for i, seed in enumerate((7, 11)):
+        frames = sample_loop(mu, root, seed)
+        values = ";".join(line(f, step=2) for f in frames)
         doc.add(
-            f'<path class="sample" d="{line(order[0])}" fill="none" stroke="{ink}" '
+            f'<path class="sample" d="{line(frames[0], step=2)}" fill="none" stroke="{ink}" '
             f'stroke-opacity=".5" stroke-width="1.2">'
-            f'<animate attributeName="d" dur="{18 + 5 * i}s" repeatCount="indefinite" '
-            f'calcMode="spline" keyTimes="0;.25;.5;.75;1" '
-            f'keySplines=".45 0 .55 1;.45 0 .55 1;.45 0 .55 1;.45 0 .55 1" values="{values}"/></path>'
+            f'<animate attributeName="d" dur="{40 + 12 * i}s" repeatCount="indefinite" '
+            f'calcMode="linear" values="{values}"/></path>'
         )
     doc.add(
         f'<path class="mean" pathLength="1" d="{line(mu)}" fill="none" stroke="{a}" '

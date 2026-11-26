@@ -30,6 +30,4 @@ Away from research, I run a homelab where I self-host just about everything (Pro
 
 ## Toolbox
 
-| Model | Run | Observe | Write | Always |
-| :-- | :-- | :-- | :-- | :-- |
-| PyTorch<br>Jupyter<br>NumPy | Proxmox<br>Docker<br>Ansible | Grafana<br>Prometheus<br>&nbsp; | LaTeX<br>Vim<br>VS Code | Linux<br>Git<br>GitHub |
+<img src="assets/svg/toolbox.svg" width="100%" alt="Toolbox. Model: PyTorch, Jupyter, NumPy. Run: Proxmox, Docker, Ansible. Observe: Grafana, Prometheus. Write: LaTeX, Vim, VS Code. Always: Linux, Git, GitHub.">

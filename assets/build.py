@@ -558,6 +558,48 @@ def card(t, slug, letter, tag, title, desc, repo, venue):
     return doc
 
 
+TOOLBOX = [
+    ("Model", ["PyTorch", "Jupyter", "NumPy"]),
+    ("Run", ["Proxmox", "Docker", "Ansible"]),
+    ("Observe", ["Grafana", "Prometheus"]),
+    ("Write", ["LaTeX", "Vim", "VS Code"]),
+    ("Always", ["Linux", "Git", "GitHub"]),
+]
+
+
+def toolbox(t):
+    W, pad, h, step = 980, 30, 36, 48
+    cols, rows = len(TOOLBOX), max(len(items) for _, items in TOOLBOX)
+    col = (W - 2 * pad) / cols
+    top = pad + 40  # first pill row, below the category labels
+    H = top + rows * step - (step - h) + pad
+    a, ink = t["accent"], t["ink"]
+    names = ". ".join(f"{label}: {', '.join(items)}" for label, items in TOOLBOX)
+    doc = Doc(W, H, f"Toolbox. {names}.")
+    doc.add(
+        f'<rect x=".75" y=".75" width="{W - 1.5}" height="{H - 1.5}" rx="16" fill="none" '
+        f'stroke="{ink}" stroke-opacity=".6" stroke-width="1.5"/>'
+    )
+    size = 16.5
+    for i, (label, items) in enumerate(TOOLBOX):
+        x = pad + i * col
+        if i:
+            doc.add(
+                f'<path d="M{num(x - 10)} {pad}V{num(H - pad)}" stroke="{ink}" '
+                f'stroke-opacity=".3" stroke-dasharray="2 5"/>'
+            )
+        doc.add(doc.caps(label, x + 4, pad + 16, a, 14))
+        for j, item in enumerate(items):
+            y = top + j * step
+            w = MONO_B.width(item, size) + 32
+            doc.add(
+                f'<rect x="{num(x)}" y="{y}" width="{num(w)}" height="{h}" rx="{h / 2}" fill="none" '
+                f'stroke="{ink}" stroke-opacity=".6" stroke-width="1.5"/>'
+            )
+            doc.add(doc.text(MONO_B, item, x + 16, y + h / 2 + size * 0.36, size, ink))
+    return doc
+
+
 LINKS = [("linkedin", "LinkedIn"), ("homepage", "oberdiek.net"), ("scholar", "Google Scholar"), ("email", "Email")]
 
 
@@ -583,6 +625,7 @@ def main():
         write(f"card-{slug}.svg", card(PALETTE, slug, *rest))
     for slug, label in LINKS:
         write(f"link-{slug}.svg", link_button(PALETTE, label))
+    write("toolbox.svg", toolbox(PALETTE))
     print(f"wrote {len(list(OUT.glob('*.svg')))} files to {OUT}")
 
 

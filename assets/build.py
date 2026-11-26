@@ -18,16 +18,12 @@ Fontsource:
 
 Then, from the repository root:
 
-    pip install numpy fonttools brotli uharfbuzz pillow
+    pip install numpy fonttools brotli uharfbuzz
     python3 assets/build.py
-
-If assets/portrait.jpg exists, it is embedded as the single observed data point in the
-header figure; otherwise a plain marker takes its place.
 """
 
 from __future__ import annotations
 
-import base64
 import io
 import math
 import os
@@ -42,7 +38,6 @@ from fontTools.ttLib import TTFont
 ROOT = Path(__file__).resolve().parent
 OUT = ROOT / "svg"
 FONT_DIR = Path(os.environ.get("FONT_DIR", ROOT / ".fonts"))
-PORTRAIT = ROOT / "portrait.jpg"
 
 # Both inks keep at least 3.5:1 contrast against GitHub's light (#ffffff) and dark
 # (#0d1117) pages. No single colour does better than about 4.35:1 on both, and `ink`
@@ -238,7 +233,7 @@ def write(name: str, doc: Doc):
 
 
 def gp_posterior():
-    """A Gaussian-process posterior that stays low under the name and rises to the portrait."""
+    """A Gaussian-process posterior that stays low under the name and rises to a peak on the right."""
 
     def truth(x):
         return 0.16 + 0.05 * np.sin(14 * x) + 0.74 * np.exp(-(((x - 0.84) / 0.13) ** 2))
@@ -277,25 +272,10 @@ def sample_loop(mu, root, seed: int, frames: int = 16):
     return [mu + root @ (z1 * np.cos(a) + z2 * np.sin(a)) for a in angles]
 
 
-def portrait_data_uri(size: int) -> str | None:
-    if not PORTRAIT.exists():
-        return None
-    from PIL import Image, ImageOps
-
-    img = ImageOps.exif_transpose(Image.open(PORTRAIT)).convert("RGB")
-    w, h = img.size
-    side = min(w, h)
-    left, top = (w - side) // 2, max(0, int((h - side) * 0.25))
-    img = img.crop((left, top, left + side, top + side)).resize((size, size), Image.LANCZOS)
-    buf = io.BytesIO()
-    img.save(buf, "JPEG", quality=84, optimize=True, progressive=True)
-    return "data:image/jpeg;base64," + base64.b64encode(buf.getvalue()).decode()
-
-
 HEADER_LABEL = "Hi, I’m Philipp Oberdiek."
 
 
-def header(t, portrait):
+def header(t):
     W, H = 1280, 520
     X0, X1 = 40, 1240
     doc = Doc(W, H, HEADER_LABEL)
@@ -346,23 +326,15 @@ def header(t, portrait):
             f'cy="{num(py(y))}" r="5.5" fill="{ink}"/>'
         )
 
-    # the one observation that matters
-    cx, cy, r = px(obs_x[-1]), py(obs_y[-1]), 44
+    # the one observation that matters, labelled underneath
+    cx, cy = px(obs_x[-1]), py(obs_y[-1])
     doc.add('<g class="me">')
-    if portrait:
-        doc.add(f'<clipPath id="face"><circle cx="{num(cx)}" cy="{num(cy)}" r="{r}"/></clipPath>')
-        doc.add(
-            f'<image href="{portrait}" x="{num(cx - r)}" y="{num(cy - r)}" width="{2 * r}" '
-            f'height="{2 * r}" clip-path="url(#face)" preserveAspectRatio="xMidYMid slice"/>'
-        )
-        doc.add(f'<circle cx="{num(cx)}" cy="{num(cy)}" r="{r + 5}" fill="none" stroke="{a}" stroke-width="2.5"/>')
-    else:
-        doc.add(f'<circle cx="{num(cx)}" cy="{num(cy)}" r="7.5" fill="{a}"/>')
-        doc.add(f'<circle cx="{num(cx)}" cy="{num(cy)}" r="16" fill="none" stroke="{a}" stroke-width="2.5"/>')
+    doc.add(f'<circle cx="{num(cx)}" cy="{num(cy)}" r="7.5" fill="{a}"/>')
+    doc.add(f'<circle cx="{num(cx)}" cy="{num(cy)}" r="16" fill="none" stroke="{a}" stroke-width="2.5"/>')
     doc.add(
         doc.rich(
             [(MATH_I, "n"), (MATH, " = 1,  "), (GREEK_I, "σ"), (MATH, " "), ("approx", None), (MATH, " 0")],
-            cx, cy + r + 40, 26, ink, anchor="middle",
+            cx, cy + 84, 26, ink, anchor="middle",
         )
     )
     doc.add("</g>")
@@ -630,7 +602,7 @@ def link_button(t, label: str):
 def main():
     for old in OUT.glob("*.svg"):
         old.unlink()
-    write("header.svg", header(PALETTE, portrait_data_uri(176)))
+    write("header.svg", header(PALETTE))
     for slug, *rest in PROJECTS:
         write(f"card-{slug}.svg", card(PALETTE, slug, *rest))
     for slug, label in LINKS:

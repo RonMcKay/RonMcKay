@@ -1,4 +1,4 @@
-<img src="assets/svg/header.svg" width="100%" alt="Hi, I’m Philipp Oberdiek. A Gaussian-process posterior: the uncertainty band is narrow around observed data points and widens where there is none. My portrait is the last data point.">
+<img src="assets/svg/header.svg" width="100%" alt="Hi, I’m Philipp Oberdiek. A Gaussian-process posterior: the uncertainty band is narrow around observed data points and widens where there is none.">
 
 <sub><b>Fig. 1</b>&ensp;Gaussian-process posterior, mean ± 1σ / 2σ. Confidence is highest near observed data, and shortly after coffee.</sub>
 

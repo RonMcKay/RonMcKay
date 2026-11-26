@@ -4,7 +4,12 @@
 
 **Dr.-Ing. in computer science**, working on uncertainty quantification. Homelab, IoT, tennis and coffee on the side.
 
-[LinkedIn](https://www.linkedin.com/in/philipp-oberdiek/) &ensp;·&ensp; [oberdiek.net](https://oberdiek.net) &ensp;·&ensp; [Google Scholar](https://scholar.google.com/citations?user=csh8_YkAAAAJ) &ensp;·&ensp; [Email](mailto:git@oberdiek.net)
+<p>
+  <a href="https://www.linkedin.com/in/philipp-oberdiek/"><img height="42" alt="LinkedIn" src="assets/svg/link-linkedin.svg"></a>
+  <a href="https://oberdiek.net"><img height="42" alt="oberdiek.net" src="assets/svg/link-homepage.svg"></a>
+  <a href="https://scholar.google.com/citations?user=csh8_YkAAAAJ"><img height="42" alt="Google Scholar" src="assets/svg/link-scholar.svg"></a>
+  <a href="mailto:git@oberdiek.net"><img height="42" alt="Email" src="assets/svg/link-email.svg"></a>
+</p>
 
 ## About
 
@@ -14,80 +19,14 @@ Away from research, I run a homelab where I self-host just about everything (Pro
 
 ## Selected work
 
-<table>
-<tr>
-<td width="50%" valign="top">
-
-<img src="assets/svg/uqgan.svg" width="88" align="right" alt="">
-
-### [UQGAN](https://github.com/RonMcKay/UQGAN)
-
-<sub>RESEARCH · PYTHON · <b>NEURIPS 2022</b></sub>
-
-Unified uncertainty quantification for deep classifiers, trained via conditional GANs.
-
-</td>
-<td width="50%" valign="top">
-
-<img src="assets/svg/oodretrieval.svg" width="88" align="right" alt="">
-
-### [OODRetrieval](https://github.com/RonMcKay/OODRetrieval)
-
-<sub>RESEARCH · PYTHON · <b>CVPR WORKSHOPS 2020</b></sub>
-
-Detection and retrieval of out-of-distribution objects in semantic segmentation.
-
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top">
-
-<img src="assets/svg/gradient-metrics.svg" width="88" align="right" alt="">
-
-### [gradient_metrics](https://github.com/RonMcKay/gradient_metrics)
-
-<sub>LIBRARY · PYTHON · <b>ANNPR 2018</b></sub>
-
-Gradient-based uncertainty metrics for neural networks, built on PyTorch.
-
-</td>
-<td width="50%" valign="top">
-
-<img src="assets/svg/annotation-tool.svg" width="88" align="right" alt="">
-
-### [annotation-tool](https://github.com/TUD-Patrec/annotation-tool)
-
-<sub>TOOL · PYTHON</sub>
-
-Annotate time-series data from sources such as motion capture and video.
-
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top">
-
-<img src="assets/svg/soil-sensor.svg" width="88" align="right" alt="">
-
-### [Soil moisture sensor](https://github.com/RonMcKay/capacitive-soil-moisture-sensor)
-
-<sub>HARDWARE · IOT</sub>
-
-A compact, battery-powered capacitive soil moisture sensor.
-
-</td>
-<td width="50%" valign="top">
-
-<img src="assets/svg/zotero-crosshair.svg" width="88" align="right" alt="">
-
-### [Zotero crosshair](https://github.com/RonMcKay/zotero-annotation-cross-hair)
-
-<sub>PLUGIN · TYPESCRIPT</sub>
-
-Page-wide crosshair guides for area annotations in Zotero's PDF reader.
-
-</td>
-</tr>
-</table>
+<p>
+  <a href="https://github.com/RonMcKay/UQGAN"><img width="49%" alt="UQGAN: Unified uncertainty quantification for deep classifiers, trained via conditional GANs. Published at NeurIPS 2022." src="assets/svg/card-uqgan.svg"></a>
+  <a href="https://github.com/RonMcKay/OODRetrieval"><img width="49%" alt="OODRetrieval: Detection and retrieval of out-of-distribution objects in semantic segmentation. Published at CVPR Workshops 2020." src="assets/svg/card-oodretrieval.svg"></a>
+  <a href="https://github.com/RonMcKay/gradient_metrics"><img width="49%" alt="gradient_metrics: Gradient-based uncertainty metrics for neural networks, built on PyTorch. Published at ANNPR 2018." src="assets/svg/card-gradient-metrics.svg"></a>
+  <a href="https://github.com/TUD-Patrec/annotation-tool"><img width="49%" alt="annotation-tool: Annotate time-series data from sources such as motion capture and video." src="assets/svg/card-annotation-tool.svg"></a>
+  <a href="https://github.com/RonMcKay/capacitive-soil-moisture-sensor"><img width="49%" alt="Soil moisture sensor: A compact, battery-powered capacitive soil moisture sensor." src="assets/svg/card-soil-sensor.svg"></a>
+  <a href="https://github.com/RonMcKay/zotero-annotation-cross-hair"><img width="49%" alt="Zotero crosshair: Page-wide crosshair guides for area annotations in Zotero's PDF reader." src="assets/svg/card-zotero-crosshair.svg"></a>
+</p>
 
 ## Toolbox
 

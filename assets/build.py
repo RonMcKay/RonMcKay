@@ -1,21 +1,20 @@
 #!/usr/bin/env python3
 """Generate the figures used by the profile README.
 
-The README keeps all of its text in Markdown, so GitHub renders it in whatever theme
-the visitor uses. The figures here are the only images, and each exists in a single
-version: transparent, drawn in two inks that read on both GitHub's light and dark
-pages. (README images cannot follow GitHub's theme setting: <picture> sources follow
-the operating system's colour scheme, which can differ from it.)
+README images cannot follow the theme chosen in GitHub's settings (<picture> sources
+follow the operating system's colour scheme, which can differ from it). So every figure
+exists in a single version: transparent, and drawn in two inks that read on both
+GitHub's light and dark pages.
 
 Text inside the figures is converted to outlines, because GitHub serves README images
 in a sandbox that cannot load web fonts. The fonts (SIL Open Font License) come from
 Fontsource:
 
     mkdir -p assets/.fonts && cd assets/.fonts
-    npm pack @fontsource/instrument-serif @fontsource/stix-two-text
+    npm pack @fontsource/instrument-serif @fontsource/ibm-plex-mono @fontsource/stix-two-text
     for f in *.tgz; do tar xzf "$f" --strip-components=2 --wildcards \
-        '*/instrument-serif-latin-400-*.woff2' '*/stix-two-text-latin-400-*.woff2' \
-        '*/stix-two-text-greek-400-italic.woff2' 2>/dev/null; done
+        '*/instrument-serif-latin-400-*.woff2' '*/ibm-plex-mono-latin-[56]00-normal.woff2' \
+        '*/stix-two-text-latin-400-*.woff2' '*/stix-two-text-greek-400-italic.woff2' 2>/dev/null; done
 
 Then, from the repository root:
 
@@ -45,9 +44,10 @@ OUT = ROOT / "svg"
 FONT_DIR = Path(os.environ.get("FONT_DIR", ROOT / ".fonts"))
 PORTRAIT = ROOT / "portrait.jpg"
 
-# Both inks keep at least 3.5:1 contrast against GitHub's light (#ffffff) and
-# dark (#0d1117) pages. `ink` is GitHub's own muted text colour.
-PALETTE = dict(accent="#d9630f", ink="#7d8590")
+# Both inks keep at least 3.5:1 contrast against GitHub's light (#ffffff) and dark
+# (#0d1117) pages. No single colour does better than about 4.35:1 on both, and `ink`
+# is the grey that sits at that balance point.
+PALETTE = dict(accent="#d9630f", ink="#7b7977")
 
 
 def num(v: float) -> str:
@@ -74,7 +74,18 @@ class Face:
         self.upm = self.tt["head"].unitsPerEm
         self.hb = hb.Font(hb.Face(hb.Blob(data)))
 
-    def shape(self, s: str, size: float):
+    def wrap(self, s: str, size: float, max_width: float) -> list[str]:
+        lines, line = [], ""
+        for word in s.split():
+            trial = f"{line} {word}".strip()
+            if line and self.width(trial, size) > max_width:
+                lines.append(line)
+                line = word
+            else:
+                line = trial
+        return lines + ([line] if line else [])
+
+    def shape(self, s: str, size: float, tracking: float = 0.0):
         buf = hb.Buffer()
         buf.add_str(s)
         buf.guess_segment_properties()
@@ -83,11 +94,11 @@ class Face:
         out, x = [], 0.0
         for info, pos in zip(buf.glyph_infos, buf.glyph_positions):
             out.append((info.codepoint, x + pos.x_offset * scale, pos.y_offset * scale))
-            x += pos.x_advance * scale
-        return out, x
+            x += pos.x_advance * scale + tracking
+        return out, (x - tracking if out else 0.0)
 
-    def width(self, s: str, size: float) -> float:
-        return self.shape(s, size)[1]
+    def width(self, s: str, size: float, tracking: float = 0.0) -> float:
+        return self.shape(s, size, tracking)[1]
 
     def outline(self, gid: int) -> str:
         pen = SVGPathPen(self.glyphs, ntos=lambda v: str(round(v)))
@@ -97,6 +108,8 @@ class Face:
 
 SERIF = Face("s", "instrument-serif-latin-400-normal.woff2")
 SERIF_I = Face("si", "instrument-serif-latin-400-italic.woff2")
+MONO = Face("mm", "ibm-plex-mono-latin-500-normal.woff2")
+MONO_B = Face("mb", "ibm-plex-mono-latin-600-normal.woff2")
 MATH = Face("x", "stix-two-text-latin-400-normal.woff2")
 MATH_I = Face("xi", "stix-two-text-latin-400-italic.woff2")
 GREEK_I = Face("gi", "stix-two-text-greek-400-italic.woff2")
@@ -123,8 +136,8 @@ class Doc:
             self.defs[ref] = f'<path id="{ref}" d="{d}"/>'
         return ref
 
-    def run(self, face: Face, s: str, x: float, y: float, size: float) -> tuple[str, float]:
-        glyphs, w = face.shape(s, size)
+    def run(self, face: Face, s: str, x: float, y: float, size: float, tracking: float = 0.0):
+        glyphs, w = face.shape(s, size, tracking)
         k = f"{size / face.upm:.5g}"
         uses = []
         for gid, gx, gy in glyphs:
@@ -133,14 +146,17 @@ class Doc:
                 uses.append(f'<use href="#{ref}" transform="matrix({k} 0 0 -{k} {num(x + gx)} {num(y - gy)})"/>')
         return "".join(uses), w
 
-    def text(self, face, s, x, y, size, fill, anchor="start", cls=""):
-        return self.rich([(face, s)], x, y, size, fill, anchor, cls)
+    def text(self, face, s, x, y, size, fill, anchor="start", cls="", tracking=0.0):
+        return self.rich([(face, s)], x, y, size, fill, anchor, cls, tracking)
 
-    def rich(self, segments, x, y, size, fill, anchor="start", cls=""):
+    def caps(self, s, x, y, fill, size=13.0, anchor="start"):
+        return self.text(MONO_B, s.upper(), x, y, size, fill, anchor, tracking=size * 0.14)
+
+    def rich(self, segments, x, y, size, fill, anchor="start", cls="", tracking=0.0):
         """Set a line made of (face, text) runs and (shape, None) symbols drawn by hand."""
 
         def seg_width(face, s):
-            return SHAPES[face][0] * size if isinstance(face, str) else face.width(s, size)
+            return SHAPES[face][0] * size if isinstance(face, str) else face.width(s, size, tracking)
 
         total = sum(seg_width(f, s) for f, s in segments)
         x -= {"start": 0, "middle": total / 2, "end": total}[anchor]
@@ -151,9 +167,9 @@ class Doc:
                 out.append(draw(x, y, size, fill))
                 x += advance * size
             else:
-                part, w = self.run(face, s, x, y, size)
+                part, w = self.run(face, s, x, y, size, tracking)
                 out.append(part)
-                x += w
+                x += w + tracking
         cls = f' class="{cls}"' if cls else ""
         return f'<g fill="{fill}"{cls}>{"".join(out)}</g>'
 
@@ -190,6 +206,27 @@ def _arrow_right(x, y, size, color):
 
 
 SHAPES = {"approx": (0.76, _approx), "arrow": (0.94, _arrow_right)}
+
+
+def arrow_ne(x, y, s, color, width=1.6):
+    """A north-east arrow whose lower-left corner sits at (x, y)."""
+    return (
+        f'<path d="M{num(x)} {num(y)}L{num(x + s)} {num(y - s)}M{num(x + s * 0.3)} {num(y - s)}'
+        f'H{num(x + s)}V{num(y - s * 0.3)}" fill="none" stroke="{color}" stroke-width="{width}" '
+        f'stroke-linecap="round" stroke-linejoin="round"/>'
+    )
+
+
+def pill(doc, t, label, x, y, color, size=13.0):
+    """A rounded tag; (x, y) is its top-left corner. Returns its width."""
+    pad, h, track = 13, 28, size * 0.14
+    w = MONO_B.width(label.upper(), size, track) + 2 * pad
+    doc.add(
+        f'<rect x="{num(x)}" y="{num(y)}" width="{num(w)}" height="{h}" rx="{h / 2}" fill="none" '
+        f'stroke="{color}" stroke-width="1.5"/>'
+    )
+    doc.add(doc.caps(label, x + pad, y + h / 2 + size * 0.36, color, size))
+    return w
 
 
 def write(name: str, doc: Doc):
@@ -474,9 +511,67 @@ ILLUSTRATIONS = {
 }
 
 
-def illustration(t, draw) -> Doc:
-    doc = Doc(160, 160)
-    doc.add(f'<g transform="translate(10 10)">{draw(t)}</g>')
+PROJECTS = [
+    ("uqgan", "a", "Research · Python", "UQGAN",
+     "Unified uncertainty quantification for deep classifiers, trained via conditional GANs.",
+     "RonMcKay/UQGAN", "NeurIPS 2022"),
+    ("oodretrieval", "b", "Research · Python", "OODRetrieval",
+     "Detection and retrieval of out-of-distribution objects in semantic segmentation.",
+     "RonMcKay/OODRetrieval", "CVPR Workshops 2020"),
+    ("gradient-metrics", "c", "Library · Python", "gradient_metrics",
+     "Gradient-based uncertainty metrics for neural networks, built on PyTorch.",
+     "RonMcKay/gradient_metrics", "ANNPR 2018"),
+    ("annotation-tool", "d", "Tool · Python", "annotation-tool",
+     "Annotate time-series data from sources such as motion capture and video.",
+     "TUD-Patrec/annotation-tool", None),
+    ("soil-sensor", "e", "Hardware · IoT", "Soil moisture sensor",
+     "A compact, battery-powered capacitive soil moisture sensor.",
+     "RonMcKay/capacitive-soil-moisture-sensor", None),
+    ("zotero-crosshair", "f", "Plugin · TypeScript", "Zotero crosshair",
+     "Page-wide crosshair guides for area annotations in Zotero’s PDF reader.",
+     "RonMcKay/zotero-annotation-cross-hair", None),
+]
+
+
+def card(t, slug, letter, tag, title, desc, repo, venue):
+    W, H = 480, 284
+    a, ink = t["accent"], t["ink"]
+    doc = Doc(W, H, f"{title}: {desc}" + (f" Published at {venue}." if venue else ""))
+    doc.add(
+        f'<rect x=".75" y=".75" width="{W - 1.5}" height="{H - 1.5}" rx="16" fill="none" '
+        f'stroke="{ink}" stroke-opacity=".6" stroke-width="1.5"/>'
+    )
+    doc.add(doc.caps(f"({letter})", 28, 44, a, 13.5))
+    doc.add(doc.caps(tag, 28 + MONO_B.width("(A)", 13.5, 1.89) + 12, 44, ink, 13.5))
+    size = 48
+    while SERIF.width(title, size) > 310:
+        size -= 1
+    doc.add(doc.text(SERIF, title, 26, 114, size, a))
+    for i, ln in enumerate(MONO.wrap(desc, 16.5, 424)):
+        doc.add(doc.text(MONO, ln, 28, 160 + 25 * i, 16.5, ink))
+    doc.add(doc.text(MONO_B, repo, 28, 254, 14, ink))
+    doc.add(arrow_ne(28 + MONO_B.width(repo, 14) + 9, 254, 8.5, a, 1.7))
+    if venue:
+        w = MONO_B.width(venue.upper(), 13, 1.82) + 26
+        pill(doc, t, venue, W - 28 - w, 235, a, 13)
+    doc.add(f'<g transform="translate(350 26) scale(.74)">{ILLUSTRATIONS[slug](t)}</g>')
+    return doc
+
+
+LINKS = [("linkedin", "LinkedIn"), ("homepage", "oberdiek.net"), ("scholar", "Google Scholar"), ("email", "Email")]
+
+
+def link_button(t, label: str):
+    size, pad, h = 15, 18, 42
+    w_text = MONO_B.width(label, size)
+    W = math.ceil(pad + w_text + 13 + 10 + pad)
+    doc = Doc(W, h, label)
+    doc.add(
+        f'<rect x=".75" y=".75" width="{W - 1.5}" height="{h - 1.5}" rx="{(h - 1.5) / 2}" '
+        f'fill="none" stroke="{t["ink"]}" stroke-opacity=".6" stroke-width="1.5"/>',
+        doc.text(MONO_B, label, pad, 26.5, size, t["ink"]),
+        arrow_ne(pad + w_text + 13, 26, 10, t["accent"], 1.8),
+    )
     return doc
 
 
@@ -484,8 +579,10 @@ def main():
     for old in OUT.glob("*.svg"):
         old.unlink()
     write("header.svg", header(PALETTE, portrait_data_uri(176)))
-    for slug, draw in ILLUSTRATIONS.items():
-        write(f"{slug}.svg", illustration(PALETTE, draw))
+    for slug, *rest in PROJECTS:
+        write(f"card-{slug}.svg", card(PALETTE, slug, *rest))
+    for slug, label in LINKS:
+        write(f"link-{slug}.svg", link_button(PALETTE, label))
     print(f"wrote {len(list(OUT.glob('*.svg')))} files to {OUT}")
 
 

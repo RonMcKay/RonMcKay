@@ -10,7 +10,7 @@ Fonts (all SIL Open Font License) come from Fontsource:
     mkdir -p assets/.fonts && cd assets/.fonts
     npm pack @fontsource/instrument-serif @fontsource/ibm-plex-mono @fontsource/stix-two-text
     for f in *.tgz; do tar xzf "$f" --strip-components=2 --wildcards \
-        '*/instrument-serif-latin-400-*.woff2' '*/ibm-plex-mono-latin-[45]00-normal.woff2' \
+        '*/instrument-serif-latin-400-*.woff2' '*/ibm-plex-mono-latin-[456]00-normal.woff2' \
         '*/stix-two-text-latin-400-*.woff2' '*/stix-two-text-greek-400-italic.woff2' 2>/dev/null; done
 
 Then, from the repository root:
@@ -28,6 +28,7 @@ import base64
 import io
 import math
 import os
+import re
 from pathlib import Path
 
 import numpy as np
@@ -40,9 +41,11 @@ OUT = ROOT / "svg"
 FONT_DIR = Path(os.environ.get("FONT_DIR", ROOT / ".fonts"))
 PORTRAIT = ROOT / "portrait.jpg"
 
+# Light text on a dark page reads heavier than dark text on a white one, so the light
+# theme uses a bolder mono weight and multiplies every fill/stroke opacity by `boost`.
 THEMES = {
-    "dark": dict(ink="#ece6da", muted="#a39b8e", faint="#3d3934", accent="#fe8019"),
-    "light": dict(ink="#1f1c18", muted="#675f55", faint="#d6cfc2", accent="#c2410c"),
+    "dark": dict(ink="#ece6da", muted="#a39b8e", faint="#3d3934", accent="#fe8019", heavy=False, boost=1.0),
+    "light": dict(ink="#0f0d0a", muted="#3f3931", faint="#9d9485", accent="#b03a07", heavy=True, boost=1.7),
 }
 
 
@@ -106,16 +109,27 @@ SERIF = Face("s", "instrument-serif-latin-400-normal.woff2")
 SERIF_I = Face("si", "instrument-serif-latin-400-italic.woff2")
 MONO = Face("m", "ibm-plex-mono-latin-400-normal.woff2")
 MONO_M = Face("mm", "ibm-plex-mono-latin-500-normal.woff2")
+MONO_SB = Face("ms", "ibm-plex-mono-latin-600-normal.woff2")
 MATH = Face("x", "stix-two-text-latin-400-normal.woff2")
 MATH_I = Face("xi", "stix-two-text-latin-400-italic.woff2")
 GREEK_I = Face("gi", "stix-two-text-greek-400-italic.woff2")
 
 
+def body(t) -> Face:
+    """The mono face for running text in this theme."""
+    return MONO_M if t["heavy"] else MONO
+
+
+def strong(t) -> Face:
+    """The mono face for labels and links in this theme."""
+    return MONO_SB if t["heavy"] else MONO_M
+
+
 class Doc:
     """One SVG figure. Glyphs are defined once and placed with <use>, which keeps files small."""
 
-    def __init__(self, width: int, height: int, label: str):
-        self.w, self.h, self.label = width, height, label
+    def __init__(self, width: int, height: int, label: str, theme: dict):
+        self.w, self.h, self.label, self.t = width, height, label, theme
         self.defs: dict[str, str] = {}
         self.body: list[str] = []
         self.style = ""
@@ -146,7 +160,7 @@ class Doc:
         return self.rich([(face, s)], x, y, size, fill, tracking, anchor, cls)
 
     def caps(self, s, x, y, fill, size=13.0, anchor="start"):
-        return self.text(MONO_M, s.upper(), x, y, size, fill, size * 0.14, anchor)
+        return self.text(strong(self.t), s.upper(), x, y, size, fill, size * 0.14, anchor)
 
     def rich(self, segments, x, y, size, fill, tracking=0.0, anchor="start", cls=""):
         """Set a line made of (face, text) runs and (shape, None) symbols drawn by hand."""
@@ -170,12 +184,20 @@ class Doc:
         return f'<g fill="{fill}"{cls}>{"".join(out)}</g>'
 
     def render(self) -> str:
+        boost = self.t["boost"]
+        body = "".join(self.body)
+        if boost != 1:
+            body = re.sub(
+                r'(fill|stroke)-opacity="([\d.]+)"',
+                lambda mt: f'{mt[1]}-opacity="{num(min(1.0, float(mt[2]) * boost))}"',
+                body,
+            )
         style = f"<style>{self.style}</style>" if self.style else ""
         defs = f'<defs>{"".join(self.defs.values())}</defs>' if self.defs else ""
         return (
             f'<svg xmlns="http://www.w3.org/2000/svg" width="{self.w}" height="{self.h}" '
             f'viewBox="0 0 {self.w} {self.h}" role="img" aria-label="{self.label}">'
-            f"<title>{self.label}</title>{style}{defs}{''.join(self.body)}</svg>\n"
+            f"<title>{self.label}</title>{style}{defs}{body}</svg>\n"
         )
 
 
@@ -274,7 +296,7 @@ HEADER_LABEL = (
 def header(t, portrait):
     W, H = 1280, 632
     X0, X1 = 40, 1240
-    doc = Doc(W, H, HEADER_LABEL)
+    doc = Doc(W, H, HEADER_LABEL, t)
     xs, mu, std, samples, obs_x, obs_y = gp_posterior()
     a, m, ink = t["accent"], t["muted"], t["ink"]
 
@@ -294,15 +316,15 @@ def header(t, portrait):
 
     # running head
     doc.add(doc.caps("Fig. 1", X0, 50, a, 15))
-    doc.add(doc.caps("— a profile in uncertainty", X0 + MONO_M.width("FIG. 1", 15, 2.1) + 14, 50, m, 15))
+    doc.add(doc.caps("— a profile in uncertainty", X0 + strong(t).width("FIG. 1", 15, 2.1) + 14, 50, m, 15))
     doc.add(doc.caps("github.com/RonMcKay", X1, 50, m, 15, anchor="end"))
     doc.add(f'<path d="M{X0} 72H{X1}" stroke="{t["faint"]}" stroke-width="1"/>')
 
     # name block
     doc.add(doc.text(SERIF_I, "Hi, I’m", X0, 140, 44, m, cls="rise"))
     doc.add(doc.text(SERIF, "Philipp Oberdiek", X0 - 4, 252, 124, ink, -0.5, cls="rise"))
-    doc.add(doc.text(MONO, "Dr.-Ing. in computer science · uncertainty quantification", X0, 310, 22, ink, cls="rise late"))
-    doc.add(doc.text(MONO, "Homelab · self-hosting · IoT · tennis · coffee", X0, 344, 22, m, cls="rise late"))
+    doc.add(doc.text(body(t), "Dr.-Ing. in computer science · uncertainty quantification", X0, 310, 22, ink, cls="rise late"))
+    doc.add(doc.text(body(t), "Homelab · self-hosting · IoT · tennis · coffee", X0, 344, 22, m, cls="rise late"))
 
     # plot
     doc.add('<clipPath id="plot"><rect x="0" y="120" width="1280" height="398"/></clipPath>')
@@ -356,16 +378,16 @@ def header(t, portrait):
     doc.add(f'<path d="M{X0} 520H{X1}" stroke="{t["faint"]}" stroke-width="1"/>')
     ticks = "".join(f"M{num(X0 + i * (X1 - X0) / 12)} 520v7" for i in range(13))
     doc.add(f'<path d="{ticks}" stroke="{t["faint"]}" stroke-width="1"/>')
-    doc.add(doc.rich([(MONO, "time "), ("arrow", None)], X1, 550, 16, m, anchor="end"))
+    doc.add(doc.rich([(body(t), "time "), ("arrow", None)], X1, 550, 16, m, anchor="end"))
     sigma = (GREEK_I, "σ")
     doc.add(
         doc.rich(
-            [(MONO, "Gaussian-process posterior, mean ± 1"), sigma, (MONO, " / 2"), sigma,
-             (MONO, ". Confidence is highest near observed data,")],
+            [(body(t), "Gaussian-process posterior, mean ± 1"), sigma, (body(t), " / 2"), sigma,
+             (body(t), ". Confidence is highest near observed data,")],
             X0, 584, 17, m,
         )
     )
-    doc.add(doc.text(MONO, "and shortly after coffee.", X0, 612, 17, m))
+    doc.add(doc.text(body(t), "and shortly after coffee.", X0, 612, 17, m))
 
     doc.style = (
         "@keyframes draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}"
@@ -387,7 +409,7 @@ def header(t, portrait):
 
 
 def section(t, number: str, title: str):
-    doc = Doc(1280, 64, f"{number} {title}")
+    doc = Doc(1280, 64, f"{number} {title}", t)
     doc.add(doc.caps(number, 0, 44, t["accent"], 16))
     doc.add(doc.text(SERIF, title, 46, 46, 42, t["ink"]))
     start = 46 + SERIF.width(title, 42) + 24
@@ -397,13 +419,13 @@ def section(t, number: str, title: str):
 
 def link_button(t, label: str):
     size, pad, h = 14, 18, 40
-    w_text = MONO_M.width(label, size)
+    w_text = strong(t).width(label, size)
     W = math.ceil(pad + w_text + 12 + 9 + pad)
-    doc = Doc(W, h, label)
+    doc = Doc(W, h, label, t)
     doc.add(
         f'<rect x=".75" y=".75" width="{W - 1.5}" height="{h - 1.5}" rx="{(h - 1.5) / 2}" '
         f'fill="none" stroke="{t["faint"]}" stroke-width="1.5"/>',
-        doc.text(MONO_M, label, pad, 25, size, t["ink"]),
+        doc.text(strong(t), label, pad, 25, size, t["ink"]),
         arrow_ne(pad + w_text + 12, 25, 9, t["accent"]),
     )
     return doc
@@ -555,26 +577,26 @@ PROJECTS = [
 
 def card(t, letter, tag, title, desc, repo, illustration, venue=None):
     W, H = 480, 272
-    doc = Doc(W, H, f"{title}: {desc}")
+    doc = Doc(W, H, f"{title}: {desc}", t)
     doc.add(
         f'<rect x=".75" y=".75" width="{W - 1.5}" height="{H - 1.5}" rx="16" fill="none" '
         f'stroke="{t["faint"]}" stroke-width="1.5"/>'
     )
     doc.add(doc.caps(f"({letter})", 28, 44, t["accent"], 13))
-    doc.add(doc.caps(tag, 28 + MONO_M.width("(A)", 13, 1.82) + 12, 44, t["muted"], 13))
+    doc.add(doc.caps(tag, 28 + strong(t).width("(A)", 13, 1.82) + 12, 44, t["muted"], 13))
     size = 46
     while SERIF.width(title, size) > 310:
         size -= 1
     doc.add(doc.text(SERIF, title, 26, 112, size, t["ink"]))
-    for i, ln in enumerate(MONO.wrap(desc, 15.5, 424)):
-        doc.add(doc.text(MONO, ln, 28, 158 + 24 * i, 15.5, t["muted"]))
-    doc.add(doc.text(MONO_M, repo, 28, 244, 13.5, t["ink"]))
-    doc.add(arrow_ne(28 + MONO_M.width(repo, 13.5) + 9, 244, 8, t["accent"], 1.5))
+    for i, ln in enumerate(body(t).wrap(desc, 15.5, 424)):
+        doc.add(doc.text(body(t), ln, 28, 158 + 24 * i, 15.5, t["muted"]))
+    doc.add(doc.text(strong(t), repo, 28, 244, 13.5, t["ink"]))
+    doc.add(arrow_ne(28 + strong(t).width(repo, 13.5) + 9, 244, 8, t["accent"], 1.5))
     doc.add(f'<g transform="translate(350 26) scale(.74)">{illustration(t)}</g>')
     if venue:
         # Where the paper behind the project was published, as a tag in the bottom-right corner.
         size, track, pad, h = 12, 12 * 0.14, 12, 26
-        w = MONO_M.width(venue.upper(), size, track) + 2 * pad
+        w = strong(t).width(venue.upper(), size, track) + 2 * pad
         x = W - 28 - w
         doc.add(
             f'<rect x="{num(x)}" y="226" width="{num(w)}" height="{h}" rx="{h / 2}" fill="none" '
@@ -596,7 +618,7 @@ TOOLBOX = [
 def toolbox(t):
     col = 256
     names = ". ".join(f"{label}: {', '.join(items)}" for label, items in TOOLBOX)
-    doc = Doc(1280, 196, f"Toolbox. {names}.")
+    doc = Doc(1280, 196, f"Toolbox. {names}.", t)
     for i, (label, items) in enumerate(TOOLBOX):
         x = i * col
         doc.add(f'<path d="M{x + 0.5} 8V188" stroke="{t["faint"]}" stroke-width="1"/>')

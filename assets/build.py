@@ -43,9 +43,18 @@ PORTRAIT = ROOT / "portrait.jpg"
 
 # Light text on a dark page reads heavier than dark text on a white one, so the light
 # theme uses a bolder mono weight and multiplies every fill/stroke opacity by `boost`.
+#
+# `bg` is GitHub's page colour for that theme. Every figure is painted on it, so it is
+# invisible when the image matches the page, and still legible when it does not: README
+# <picture> sources follow the operating system's colour scheme, which can differ from
+# the theme chosen in GitHub's settings.
 THEMES = {
-    "dark": dict(ink="#ece6da", muted="#a39b8e", faint="#3d3934", accent="#fe8019", heavy=False, boost=1.0),
-    "light": dict(ink="#0f0d0a", muted="#3f3931", faint="#9d9485", accent="#b03a07", heavy=True, boost=1.7),
+    "dark": dict(
+        bg="#0d1117", ink="#ece6da", muted="#a39b8e", faint="#3d3934", accent="#fe8019", heavy=False, boost=1.0
+    ),
+    "light": dict(
+        bg="#ffffff", ink="#0f0d0a", muted="#3f3931", faint="#9d9485", accent="#b03a07", heavy=True, boost=1.7
+    ),
 }
 
 
@@ -128,8 +137,8 @@ def strong(t) -> Face:
 class Doc:
     """One SVG figure. Glyphs are defined once and placed with <use>, which keeps files small."""
 
-    def __init__(self, width: int, height: int, label: str, theme: dict):
-        self.w, self.h, self.label, self.t = width, height, label, theme
+    def __init__(self, width: int, height: int, label: str, theme: dict, radius: float = 16):
+        self.w, self.h, self.label, self.t, self.radius = width, height, label, theme, radius
         self.defs: dict[str, str] = {}
         self.body: list[str] = []
         self.style = ""
@@ -197,7 +206,9 @@ class Doc:
         return (
             f'<svg xmlns="http://www.w3.org/2000/svg" width="{self.w}" height="{self.h}" '
             f'viewBox="0 0 {self.w} {self.h}" role="img" aria-label="{self.label}">'
-            f"<title>{self.label}</title>{style}{defs}{body}</svg>\n"
+            f"<title>{self.label}</title>{style}{defs}"
+            f'<rect width="{self.w}" height="{self.h}" rx="{num(self.radius)}" fill="{self.t["bg"]}"/>'
+            f"{body}</svg>\n"
         )
 
 
@@ -409,11 +420,12 @@ def header(t, portrait):
 
 
 def section(t, number: str, title: str):
-    doc = Doc(1280, 64, f"{number} {title}", t)
-    doc.add(doc.caps(number, 0, 44, t["accent"], 16))
-    doc.add(doc.text(SERIF, title, 46, 46, 42, t["ink"]))
-    start = 46 + SERIF.width(title, 42) + 24
-    doc.add(f'<path d="M{num(start)} 32H1280" stroke="{t["faint"]}" stroke-width="1"/>')
+    doc = Doc(1280, 64, f"{number} {title}", t, radius=12)
+    x0 = 20  # inset, so the text clears the edge when the panel is visible
+    doc.add(doc.caps(number, x0, 44, t["accent"], 16))
+    doc.add(doc.text(SERIF, title, x0 + 46, 46, 42, t["ink"]))
+    start = x0 + 46 + SERIF.width(title, 42) + 24
+    doc.add(f'<path d="M{num(start)} 32H{1280 - x0}" stroke="{t["faint"]}" stroke-width="1"/>')
     return doc
 
 
@@ -421,7 +433,7 @@ def link_button(t, label: str):
     size, pad, h = 14, 18, 40
     w_text = strong(t).width(label, size)
     W = math.ceil(pad + w_text + 12 + 9 + pad)
-    doc = Doc(W, h, label, t)
+    doc = Doc(W, h, label, t, radius=h / 2)
     doc.add(
         f'<rect x=".75" y=".75" width="{W - 1.5}" height="{h - 1.5}" rx="{(h - 1.5) / 2}" '
         f'fill="none" stroke="{t["faint"]}" stroke-width="1.5"/>',
@@ -616,11 +628,11 @@ TOOLBOX = [
 
 
 def toolbox(t):
-    col = 256
+    x0, col = 20, 248
     names = ". ".join(f"{label}: {', '.join(items)}" for label, items in TOOLBOX)
     doc = Doc(1280, 196, f"Toolbox. {names}.", t)
     for i, (label, items) in enumerate(TOOLBOX):
-        x = i * col
+        x = x0 + i * col
         doc.add(f'<path d="M{x + 0.5} 8V188" stroke="{t["faint"]}" stroke-width="1"/>')
         doc.add(doc.caps(label, x + 24, 30, t["accent"], 15))
         for j, item in enumerate(items):

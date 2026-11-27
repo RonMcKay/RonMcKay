@@ -2,7 +2,7 @@
 
 <sub><b>Fig. 1</b>&ensp;Gaussian-process posterior, mean ± 1σ / 2σ. Confidence is highest near observed data, and shortly after coffee.</sub>
 
-**Dr.-Ing. in computer science**, working on uncertainty quantification. Homelab, IoT, tennis and coffee on the side.
+**Building AI in industry**, with a Dr.-Ing. in computer science and a lasting soft spot for uncertainty quantification. Homelab, IoT, tennis and coffee on the side.
 
 <p>
   <a href="https://www.linkedin.com/in/philipp-oberdiek/"><img height="42" alt="LinkedIn" src="assets/svg/link-linkedin.svg"></a>
@@ -13,9 +13,11 @@
 
 ## About
 
-My PhD at TU Dortmund, *Assessing the Reliability of Deep Neural Networks* (2023), was about **uncertainty quantification**: teaching models to know when they don't know. That question still drives most of what I build.
+For the past few years I've been researching and developing **AI in industry**, taking models from idea to something people can rely on.
 
-Away from research, I run a homelab where I self-host just about everything (Proxmox, Docker, Ansible, with Grafana and Prometheus watching all of it) and design small battery-powered IoT devices. Off-screen, you'll find me on a tennis court or next to an espresso machine.
+My PhD at TU Dortmund, *Assessing the Reliability of Deep Neural Networks* (2023), was about **uncertainty quantification**: teaching models to know when they don't know. That question still shapes how I build things.
+
+Away from work, I run a homelab where I self-host just about everything (Proxmox, Docker, Ansible, with Grafana and Prometheus watching all of it) and design small battery-powered IoT devices. Off-screen, you'll find me on a tennis court or next to an espresso machine.
 
 ## Selected work
 
